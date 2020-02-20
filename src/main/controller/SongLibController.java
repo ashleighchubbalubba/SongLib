@@ -277,12 +277,12 @@ public class SongLibController implements Initializable{
             int_year = Integer.parseInt(year);
         }else{
             alert("Year Error", "Year is invalid!");
-            editYear.clear();
+            //editYear.clear();
             return;
         }
         if (int_year > 2020){
             alert("Year Error", "Year cannot be in the future!");
-            editYear.clear();
+            //editYear.clear();
             return;
         }
         int index = songList.getSelectionModel().getSelectedIndex();//assumming that the index of songList == obsList
@@ -323,8 +323,8 @@ public class SongLibController implements Initializable{
         //if(changed) {
             if (isDuplicate(new Song(name, artist), index) == true) {
                 alert("Song Error", "This Song already exist!");
-                editName.clear();
-                editArtist.clear();
+//                editName.clear();
+//                editArtist.clear();
                 return;
             }
         //}
