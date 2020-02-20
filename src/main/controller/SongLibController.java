@@ -115,8 +115,19 @@ public class SongLibController implements Initializable{
             selectedSongInfo.setText("");
             return;
         }
-        String context = obsList.get(curr_index).toString();
+        Song song = obsList.get(curr_index);
+        String context = song.toString();
         selectedSongInfo.setText(context);
+        editName.setText(song.getName());
+        editArtist.setText(song.getArtist());
+        editAlbum.setText(song.getAlbum());
+        String string_year;
+        if (song.getYear() >= 0){
+            string_year = Integer.toString(song.getYear());
+        }else{
+            string_year = "";
+        }
+        editYear.setText(string_year);
     }
 
     private void update(){
@@ -241,10 +252,18 @@ public class SongLibController implements Initializable{
         //onAction="#editSong" in fxml
         //Input for name
         String name = editName.getText().strip();
-
+        if(name.length() == 0){
+            alert("Name Error", "Cannot have a song with no name!");
+            showItem();
+            return;
+        }
         //Input for Artist
         String artist = editArtist.getText().strip();
-
+        if(artist.length() == 0){
+            alert("Artist Error", "Cannot have a song with no artist!");
+            showItem();
+            return;
+        }
         //Input for Album
         String album = editAlbum.getText().strip();// Optional Input
 
@@ -274,49 +293,55 @@ public class SongLibController implements Initializable{
         Song song = obsList.get(index);
 
         //Setting
-        String new_name = "";
-        String new_artist = "";
-        String new_album = "";
-        int new_year;
-        boolean changed = false;
-        if (name.length() > 0) {
-            new_name = name;
-            changed = true;
-        }else{
-            new_name = song.getName();
-        }
-        if (artist.length() > 0) {
-            new_artist = artist;
-            changed = true;
-        }else{
-            new_artist = song.getArtist();
-        }
-        if(album.length() > 0) {
-            new_album = album;
-        }else {
-            new_album = song.getAlbum();
-        }
-        if(int_year != -1) {
-            new_year = int_year;
-        }else {
-            new_year = song.getYear();
-        }
-        if(changed) {
-            if (isDuplicate(new Song(new_name, new_artist), index) == true) {
+//        String new_name = "";
+//        String new_artist = "";
+//        String new_album = "";
+//        int new_year;
+//        boolean changed = false;
+//        if (name.length() > 0) {
+//            new_name = name;
+//            changed = true;
+//        }else{
+//            new_name = song.getName();
+//        }
+//        if (artist.length() > 0) {
+//            new_artist = artist;
+//            changed = true;
+//        }else{
+//            new_artist = song.getArtist();
+//        }
+//        if(album.length() > 0) {
+//            new_album = album;
+//        }else {
+//            new_album = song.getAlbum();
+//        }
+//        if(int_year != -1) {
+//            new_year = int_year;
+//        }else {
+//            new_year = song.getYear();
+//        }
+        //if(changed) {
+            if (isDuplicate(new Song(name, artist), index) == true) {
                 alert("Song Error", "This Song already exist!");
                 editName.clear();
                 editArtist.clear();
                 return;
             }
-        }
+        //}
         if (!confirm("Edit Confirmation", "Are you sure you want to edit?")){
             return;
         }
         //Creating new Song object and assigning values to song object
-        song.setName(new_name);
-        song.setArtist(new_artist);
-        song.setAlbum(new_album);
-        song.setYear(new_year);
+        song.setName(name);
+        song.setArtist(artist);
+        song.setAlbum(album);
+        song.setYear(int_year);
+
+
+        editName.clear();
+        editArtist.clear();
+        editAlbum.clear();
+        editYear.clear();
 
         obsList.set(index, song);
         update();
@@ -324,10 +349,6 @@ public class SongLibController implements Initializable{
         songList.getSelectionModel().select(index_of_song);
         showItem();
 
-        editName.clear();
-        editArtist.clear();
-        editAlbum.clear();
-        editYear.clear();
     }
 
     @FXML
