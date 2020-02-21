@@ -113,6 +113,10 @@ public class SongLibController implements Initializable{
         curr_index = songList.getSelectionModel().getSelectedIndex();
         if(curr_index == -1){
             selectedSongInfo.setText("");
+            editName.clear();
+            editArtist.clear();
+            editAlbum.clear();
+            editYear.clear();
             return;
         }
         Song song = obsList.get(curr_index);
@@ -212,11 +216,11 @@ public class SongLibController implements Initializable{
             addYear.clear();
             return;
         }
-        if (int_year > 2020){
-            alert("Year Error", "Year cannot be in the future!");
-            addYear.clear();
-            return;
-        }
+//        if (int_year > 2020){
+//            alert("Year Error", "Year cannot be in the future!");
+//            addYear.clear();
+//            return;
+//        }
 
         //Creating new Song object and assigning values to song object
         Song song = new Song();
@@ -280,11 +284,11 @@ public class SongLibController implements Initializable{
             //editYear.clear();
             return;
         }
-        if (int_year > 2020){
-            alert("Year Error", "Year cannot be in the future!");
-            //editYear.clear();
-            return;
-        }
+//        if (int_year > 2020){
+//            alert("Year Error", "Year cannot be in the future!");
+//            //editYear.clear();
+//            return;
+//        }
         int index = songList.getSelectionModel().getSelectedIndex();//assumming that the index of songList == obsList
         if(index == -1){
             alert("Selection Error", "No song was selected for editing");
@@ -373,10 +377,14 @@ public class SongLibController implements Initializable{
                 return;
             }
         }
+
+
         obsList.remove(index);
         update();
         songList.getSelectionModel().select(new_index);
         showItem();
+
+
     }
 
     @FXML
